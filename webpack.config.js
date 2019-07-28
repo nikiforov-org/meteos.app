@@ -1,55 +1,41 @@
-const path = require("path");
+// Webpack v4
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackMd5Hash = require('webpack-md5-hash');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
-    entry: [
-        "./src/js/index.js", 
-        "./src/scss/index.scss"
-    ],
+    entry: { main: './src/index.js' },
     output: {
-        filename: "./js/bundle.js"
-    },
-    devtool: "source-map",
-    mode: "production",
-    optimization: {
-        minimizer: [
-            new TerserPlugin({
-                sourceMap: true,
-                extractComments: true
-            })
-        ]
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].[chunkhash].js'
     },
     module: {
         rules: [
             {
-                test: /\.(sass|scss)$/,
-                include: path.resolve(__dirname, "src/scss"),
-                use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {}
-                    },
-                    {
-                        loader: "css-loader",
-                        options: {
-                            sourceMap: true,
-                            url: false
-                        }
-                    },
-                    {
-                        loader: "sass-loader",
-                        options: {
-                            sourceMap: true
-                        }
-                    }
-                ]
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader"
+                }
+            },
+            {
+                test: /\.scss$/,
+                use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
             }
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
-            filename: "./css/style.bundle.css"
-        })
+            filename: 'style.[contenthash].css',
+        }),
+        new HtmlWebpackPlugin({
+            inject: false,
+            hash: true,
+            template: './src/index.html',
+            filename: 'index.html'
+        }),
+        new WebpackMd5Hash()
     ]
-}
+};
