@@ -26,10 +26,11 @@
   },
   "homepage": "https://github.com/nikiforov-org/meteos.app#readme",
   "devDependencies": {
+    "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
     "autoprefixer": "^9.6.1",
     "babel-loader": "^8.0.6",
-    "babel-preset-env": "^1.7.0",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.1.0",
     "html-webpack-plugin": "^3.2.0",
@@ -42,5 +43,6 @@
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.7.2",
     "webpack-md5-hash": "0.0.6"
-  }
+  },
+  "dependencies": {}
 }

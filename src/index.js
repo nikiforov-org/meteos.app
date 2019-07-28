@@ -1,2 +1,3 @@
 import './scss/index.scss';
-import './js/app.js';
+import Config from './js/config';
+console.log(Config.locale);
